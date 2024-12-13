@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from typing import Optional
 
 # FastAPI instance
 app = FastAPI()
@@ -35,3 +36,12 @@ def get_blog(blog_id: int):
 def get_blog(blog_id: int):
     # fetch comments for a blog with id = blogid
     return {'data': {'blog id': blog_id, 'comments': 'this is a comment'}}
+
+# query parameter ?limit=10&published=true"
+@app.get("/bloglimit")
+def limit_blog(limit:int = 10, published: bool = True, sort: Optional[str] = None):
+    # only get 10 published blogs
+    if published == True and limit >= 10:
+        return {'data': f'blog list has {limit} published blogs, sorted as {sort}!'}
+    else:
+        return {'data': 'are you crazy?'}
