@@ -4,3 +4,11 @@ from sqlmodel import SQLModel
 class BlogCreate(SQLModel):
     title: str
     body: str
+    
+class BlogRead(SQLModel):
+    id: int
+    title: str
+    body: str
+    
+    class Config:
+        orm_mode = True

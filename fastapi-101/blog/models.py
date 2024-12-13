@@ -1,4 +1,4 @@
-from sqlmodel import Field, SQLModel
+from sqlmodel import SQLModel, Field
 
 # Blog Table
 class Blog(SQLModel, table=True):
