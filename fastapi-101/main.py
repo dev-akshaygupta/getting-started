@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from typing import Optional
+from pydantic import BaseModel
 
 # FastAPI instance
 app = FastAPI()
@@ -45,3 +46,13 @@ def limit_blog(limit:int = 10, published: bool = True, sort: Optional[str] = Non
         return {'data': f'blog list has {limit} published blogs, sorted as {sort}!'}
     else:
         return {'data': 'are you crazy?'}
+
+class Blog(BaseModel):
+    title: str
+    body: str
+    published: Optional[bool]
+    
+    
+@app.post("/blog")
+def create_blog(request: Blog):
+    return {'data': f'The new blog is {request.title}'}
