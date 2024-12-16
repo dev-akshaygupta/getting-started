@@ -1,11 +1,11 @@
-from sqlmodel import SQLModel
+from pydantic import BaseModel
 
 # Blog Schema
-class BlogCreate(SQLModel):
+class BlogCreate(BaseModel):
     title: str
     body: str
     
-class BlogRead(SQLModel):
+class BlogRead(BaseModel):
     id: int
     title: str
     body: str
