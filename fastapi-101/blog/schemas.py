@@ -6,6 +6,7 @@ class BlogCreate(BaseModel):
     body: str
     
 class BlogRead(BaseModel):
-    id: int
     title: str
     body: str
+    class Config():
+        orm_mode = True
