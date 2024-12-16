@@ -56,3 +56,17 @@ def get_blog(id:int, response: Response, db: Session = Depends(get_db)):
         response.status_code = status.HTTP_404_NOT_FOUND
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Blog not found!")
     return result
+
+@app.post("/createuser", status_code=status.HTTP_201_CREATED)
+def create_user(request: schemas.UserCreate, db: Session = Depends(get_db)):
+    new_user = models.User(name=request.name, email=request.email, password=request.password)
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    return new_user 
+
+@app.get("/allusers", response_model=list[schemas.UserRead])
+def get_all_users(db: Session = Depends(get_db)):
+    get_user = select(models.User)
+    result = db.exec(get_user).all()
+    return result
