@@ -22,3 +22,11 @@ def get_by_id(id: int, response: Response, db: Session):
         response.status_code = status.HTTP_404_NOT_FOUND
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found!")
     return result
+
+def get_user_by_email(request: schemas.Login, response: Response, db: Session):
+    get_user = select(models.User).where(models.User.email == request.username)
+    result = db.exec(get_user).one_or_none()
+    if not result:
+        response.status_code = status.HTTP_404_NOT_FOUND
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found!")
+    return result

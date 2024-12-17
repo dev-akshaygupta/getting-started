@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, status, Response
-from .. import schemas, database
+from .. import schemas, database, oAuth2
 from sqlalchemy.orm import Session
 from sqlmodel import select
 from typing import List
@@ -27,7 +27,7 @@ def update_blog(id: int, request: schemas.BlogCreate, db: Session = Depends(data
 
 # Get All Blogs
 @router.get("/all", response_model=List[schemas.BlogRead])
-def get_all_blogs(db: Session = Depends(database.get_db)):
+def get_all_blogs(db: Session = Depends(database.get_db), current_user: schemas.UserRead = Depends(oAuth2.get_current_user)):
     return blog.get_all(db)
 
 # Get Blog by ID
