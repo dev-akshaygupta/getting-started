@@ -9,7 +9,7 @@ class Blog(SQLModel, table=True):
     id: int = Field(primary_key=True, index=True)
     title: str
     body: str
-    creator_id: Optional[int] = Field(default=None, foreign_key="users.id")
+    creator_id: Optional[int] = Field(default=None, foreign_key="users.id") # Bidirectional relationship between two tables/models
     
     creator: "User" = Relationship(back_populates="blogs")
 
@@ -22,4 +22,4 @@ class User(SQLModel, table=True):
     email: str
     password: str
     
-    blogs: List["Blog"] = Relationship(back_populates="creator")
+    blogs: List["Blog"] = Relationship(back_populates="creator")            # Bidirectional relationship between two tables/models
