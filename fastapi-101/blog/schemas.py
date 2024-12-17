@@ -24,3 +24,7 @@ class UserRead(BaseModel):
     blogs: List["BlogCreate"]
     class Config():
         model_config = ConfigDict(from_attributes=True)
+        
+class Login(BaseModel):
+    username: str
+    password: str
