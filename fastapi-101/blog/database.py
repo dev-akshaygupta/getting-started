@@ -14,3 +14,11 @@ SessionLocal = sessionmaker(bind=engine, autoflush=False, class_=Session)
 
 # A factory function provided by SQLAlchemy that creates a base class for all your ORM models.
 Base = declarative_base()
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+    
