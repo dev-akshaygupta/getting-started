@@ -4,10 +4,13 @@ from sqlalchemy.orm import Session
 from sqlmodel import select
 from typing import List
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/v1/user",
+    tags=["Users"]
+)
 
 # Create User
-@router.post("/createuser", status_code=status.HTTP_201_CREATED, tags=["Users"])
+@router.post("/create", status_code=status.HTTP_201_CREATED)
 def create_user(request: schemas.UserCreate, db: Session = Depends(database.get_db)):
     new_user = models.User(name=request.name, email=request.email, password=hashing.Hash.bcrypt(request.password))
     db.add(new_user)
@@ -16,14 +19,14 @@ def create_user(request: schemas.UserCreate, db: Session = Depends(database.get_
     return new_user 
 
 # Get All Users
-@router.get("/allusers", response_model=List[schemas.UserRead], tags=["Users"])
+@router.get("/all", response_model=List[schemas.UserRead])
 def get_all_users(db: Session = Depends(database.get_db)):
     get_user = select(models.User)
     result = db.exec(get_user).all()
     return result
 
 # Get User by ID
-@router.get("/user/{id}", response_model=schemas.UserRead, tags=["Users"])
+@router.get("/{id}", response_model=schemas.UserRead)
 def get_all_users(id:int, response: Response, db: Session = Depends(database.get_db)):
     get_user = select(models.User).where(models.User.id == id)
     result = db.exec(get_user).one_or_none()

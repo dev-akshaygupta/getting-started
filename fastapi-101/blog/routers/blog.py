@@ -4,10 +4,13 @@ from sqlalchemy.orm import Session
 from sqlmodel import select
 from typing import List
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/v1/blog",
+    tags=["Blogs"]
+)
 
 # Create Blog
-@router.post("/addblog", status_code=status.HTTP_201_CREATED, tags=["Blogs"])
+@router.post("/create", status_code=status.HTTP_201_CREATED)
 def create_blog(request: schemas.BlogCreate, db: Session = Depends(database.get_db)):
     new_blog = models.Blog(title=request.title, body=request.body, creator_id=1)
     db.add(new_blog)
@@ -16,7 +19,7 @@ def create_blog(request: schemas.BlogCreate, db: Session = Depends(database.get_
     return new_blog
 
 # Delete Blog
-@router.delete("/blog/{id}", status_code=status.HTTP_204_NO_CONTENT, tags=["Blogs"])
+@router.delete("/delete/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_blog(id, db: Session = Depends(database.get_db)):
     blog = db.query(models.Blog).filter(models.Blog.id == id)
     if not blog.first():
@@ -26,7 +29,7 @@ def delete_blog(id, db: Session = Depends(database.get_db)):
     return {'Blog is deleted successfully!'}
 
 # Update Blog
-@router.put("/blog/{id}", status_code=status.HTTP_200_OK, tags=["Blogs"])
+@router.put("/update/{id}", status_code=status.HTTP_200_OK)
 def update_blog(id, request: schemas.BlogCreate, db: Session = Depends(database.get_db)):
     blog = db.query(models.Blog).filter(models.Blog.id == id).first()
     if not blog:
@@ -37,14 +40,14 @@ def update_blog(id, request: schemas.BlogCreate, db: Session = Depends(database.
     return blog
 
 # Get All Blogs
-@router.get("/allblogs", response_model=List[schemas.BlogRead], tags=["Blogs"])
+@router.get("/all", response_model=List[schemas.BlogRead])
 def get_all_blogs(db: Session = Depends(database.get_db)):
     get_blogs = select(models.Blog)
     result = db.exec(get_blogs).all()
     return result
 
 # Get Blog by ID
-@router.get("/blog/{id}", response_model=schemas.BlogRead, tags=["Blogs"])
+@router.get("/{id}", response_model=schemas.BlogRead)
 def get_blog(id:int, response: Response, db: Session = Depends(database.get_db)):
     get_blog = select(models.Blog).where(models.Blog.id == id)
     result = db.exec(get_blog).one_or_none()
