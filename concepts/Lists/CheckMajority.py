@@ -78,3 +78,4 @@ if flag:
 	print("x is in majority")
 else:
 	print("x is not in majority")
+
