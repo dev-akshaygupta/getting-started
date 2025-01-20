@@ -1,0 +1,25 @@
+### Find the count of palindromic sub-string of a string in its sorted form ###
+
+# Brute force solution - O(N^3)
+def count_palindromic_substring(string, str_ln):
+	slow = 0
+	fast = 0
+	count = 0
+
+	while slow < str_ln:
+		if fast < str_ln:
+			substring = string[slow:fast]
+			if substring == substring[::-1]:
+				count += 1
+				fast += 1
+			else:
+				fast += 1
+		else:
+			slow += 1
+			fast = slow
+
+	return count
+
+string = 'abbabdbd'
+str_ln = len(string)
+print(count_palindromic_substring(string, str_ln))
