@@ -218,3 +218,144 @@ new_head = insert_at_end(first, 10)
 print("After insertion: ", end="")
 print_nodes(new_head)
 print()
+
+
+"""
+Given a Linked List, the task is to delete a node 
+in this given Linked List at the following positions: 
+
+- At the front of the linked list
+- At a specific position.
+- At the end of the linked list.
+"""
+# At the front of the linked list
+def delete_from_begining(head):
+
+	# If the linked list is initially empty
+	if head is None:
+		return None
+
+	# Change the head pointer to the next node
+    # and free the original head
+	temp = head
+	head = head.next
+
+	# Free the original head
+	del temp
+
+	return head
+
+
+first = Node(1)
+second = Node(2)
+third = Node(3)
+fourth = Node(4)
+fifth = Node(5)
+
+first.next = second
+second.next = third
+third.next = fourth
+fourth.next = fifth
+
+print("Before deletion: ", end="")
+print_nodes(first)
+head = delete_from_begining(first)
+print("After deletion: ", end="")
+print_nodes(head)
+print()
+
+
+# At a specific position.
+def delete_at_position(head, pos):
+	temp = head
+	prev = None
+
+	# If the linked list is initially empty
+	if head is None:
+		return None
+
+	if pos == 1:
+		head = temp.next
+		return head
+
+	# Traverse till given position
+	for idx in range(1, pos):
+		prev = temp
+		temp = temp.next
+		if temp is None:
+			print("Data not present")
+			return head
+
+	# If given position is found, delete node
+	if temp is not None:
+		prev.next = temp.next
+	return head
+
+
+	# Change the head pointer to the next node
+	# and free the original head
+	temp = head
+	head = head.next
+
+	# Free the original head
+	del temp
+
+	return head
+
+
+first = Node(1)
+second = Node(2)
+third = Node(3)
+fourth = Node(4)
+fifth = Node(5)
+
+first.next = second
+second.next = third
+third.next = fourth
+fourth.next = fifth
+
+print("Before deletion: ", end="")
+print_nodes(first)
+head = delete_at_position(first, 5)
+print("After deletion: ", end="")
+print_nodes(head)
+print()
+
+
+# from end of the linked list
+def delete_at_end(head):
+	# If the list is empty, return None
+	if head is None:
+		return head
+
+	# If the list has only one node, delete it and return None
+	if head.next is None:
+		return None
+
+	# Find the second last node
+	second_last = head
+	while second_last.next.next:
+		second_last = second_last.next
+
+	# Delete the last node
+	second_last.next = None
+	return head
+
+
+first = Node(1)
+second = Node(2)
+third = Node(3)
+fourth = Node(4)
+fifth = Node(5)
+
+first.next = second
+second.next = third
+third.next = fourth
+fourth.next = fifth
+
+print("Before deletion: ", end="")
+print_nodes(first)
+head = delete_at_end(first)
+print("After deletion: ", end="")
+print_nodes(head)
+print()
