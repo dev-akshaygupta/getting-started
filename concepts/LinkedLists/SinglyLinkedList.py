@@ -15,12 +15,6 @@ class Node:
 		self.data = data
 		self.next = None
 
-# At the front of the linked list
-def insert_at_front(head, data):
-	new_node = Node(data)
-	new_node.next = head
-	return new_node
-
 def print_nodes(node):
 	if node is None:
 		return None
@@ -29,6 +23,12 @@ def print_nodes(node):
 		print(node.data, end=" ")
 		node = node.next
 	print()
+
+# At the front of the linked list
+def insert_at_front(head, data):
+	new_node = Node(data)
+	new_node.next = head
+	return new_node
 
 
 first = Node(1)
