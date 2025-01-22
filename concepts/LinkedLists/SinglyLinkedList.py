@@ -228,6 +228,7 @@ in this given Linked List at the following positions:
 - At a specific position.
 - At the end of the linked list.
 """
+
 # At the front of the linked list
 def delete_from_begining(head):
 
@@ -357,5 +358,251 @@ print("Before deletion: ", end="")
 print_nodes(first)
 head = delete_at_end(first)
 print("After deletion: ", end="")
+print_nodes(head)
+print()
+
+
+"""
+Given a linked list and a key, 
+the task is to check if key is present in the linked list or not. 
+
+- Iteratively
+- Recursively
+"""
+
+# Iteratively
+def search_node_iteratively(head, key):
+	curr = head
+	
+	# Iterate over all the nodes
+	while curr.next is not None:
+		
+		# If the current node's value is equal to key,
+        # return true
+		if curr.data == key:
+			return True
+		curr = curr.next
+
+	# If there is no node with value as key, return false
+	return False
+
+first = Node(10)
+second = Node(62)
+third = Node(43)
+fourth = Node(74)
+fifth = Node(95)
+
+first.next = second
+second.next = third
+third.next = fourth
+fourth.next = fifth
+
+print(search_node_iteratively(first, 74))
+
+
+# Recursively
+def search_node_recursively(head, key):
+	# Base case
+	if head is None:
+		return False
+
+	# If key is present in current node, return true
+	if head.data == key:
+		return True
+
+	return search_node_recursively(head.next, key)
+
+first = Node(10)
+second = Node(62)
+third = Node(43)
+fourth = Node(74)
+fifth = Node(95)
+
+first.next = second
+second.next = third
+third.next = fourth
+fourth.next = fifth
+
+print(search_node_recursively(first, 95))
+
+
+"""
+Given a Singly Linked List, 
+the task is to find the Length of the Linked List.
+
+- Iteratively
+- Recursively
+"""
+
+def count_node_iteratively(head):
+	curr = head
+	count = 0
+	
+	# Iterate over all the nodes
+	while curr is not None:
+		count += 1
+		curr = curr.next
+
+	return count
+
+first = Node(10)
+second = Node(62)
+third = Node(43)
+fourth = Node(74)
+fifth = Node(95)
+
+first.next = second
+second.next = third
+third.next = fourth
+fourth.next = fifth
+
+print(count_node_iteratively(first))
+
+
+def count_node_recursively(head):
+	# Base case
+	if head is None:
+		return 0
+
+	# Count this node plus the rest of the list
+	return 1 + count_node_recursively(head.next)
+
+
+first = Node(10)
+second = Node(62)
+third = Node(43)
+fourth = Node(74)
+fifth = Node(95)
+
+first.next = second
+second.next = third
+third.next = fourth
+fourth.next = fifth
+
+print(count_node_recursively(first))
+
+
+"""
+Given a linked list, 
+the task is to reverse the linked list by changing the links between nodes.
+
+- Iteratively
+- Recursively
+- Using Stacks
+"""
+
+def reverse_iteratively(head):
+	curr = head
+	prev = None
+
+	# Traverse all the nodes of Linked List
+	while curr is not None:
+
+		# Store next
+		next_node = curr.next
+		
+		# Reverse current node's next pointer
+		curr.next = prev
+		
+		# Move pointers one position ahead
+		prev = curr
+		curr = next_node
+
+	return prev
+
+first = Node(10)
+second = Node(62)
+third = Node(43)
+fourth = Node(74)
+fifth = Node(95)
+
+first.next = second
+second.next = third
+third.next = fourth
+fourth.next = fifth
+
+print("Before reversal: ", end="")
+print_nodes(first)
+head = reverse_iteratively(first)
+print("After reversal: ", end="")
+print_nodes(head)
+print()
+
+def reverse_recursively(head):
+	if head is None or head.next is None:
+		return head
+
+	# reverse the rest of linked list and put the 
+    # first element at the end
+	rest = reverse_recursively(head.next)
+
+	# Make the current head as last node of 
+    # remaining linked list
+	head.next.next = head
+
+	# Update next of current head to NULL
+	head.next = None
+
+	return rest
+
+first = Node(10)
+second = Node(62)
+third = Node(43)
+fourth = Node(74)
+fifth = Node(95)
+
+first.next = second
+second.next = third
+third.next = fourth
+fourth.next = fifth
+
+print("Before reversal: ", end="")
+print_nodes(first)
+head = reverse_recursively(first)
+print("After reversal: ", end="")
+print_nodes(head)
+print()
+
+def reverse_using_stacks(head):
+	stack = []	# Create stack
+	temp = head
+
+	 # Push all nodes except the last node into stack
+	while temp.next is not None:
+		
+		# append the top value of stack in list
+		stack.append(temp)
+		temp = temp.next
+
+	# Make the last node as new head of the linked list
+	head = temp
+
+	# Pop all the nodes and append to the linked list
+	while stack:
+		temp.next = stack.pop()
+		temp = temp.next
+	
+	# Update the next pointer of last node 
+    # of stack to None
+	temp.next = None
+
+	return head
+
+
+first = Node(10)
+second = Node(62)
+third = Node(43)
+fourth = Node(74)
+fifth = Node(95)
+
+first.next = second
+second.next = third
+third.next = fourth
+fourth.next = fifth
+
+print("Before reversal: ", end="")
+print_nodes(first)
+head = reverse_using_stacks(first)
+print("After reversal: ", end="")
 print_nodes(head)
 print()
