@@ -26,6 +26,7 @@ def print_nodes(node):
 		node = node.next
 	print()
 
+# Inplace - O(N), O(1)
 def remove_duplicates_inplace(head):
 	 # Handle the empty list case
 	if head is None:
@@ -43,8 +44,26 @@ def remove_duplicates_inplace(head):
 			prev = prev.next
 		curr = curr.next
 
-	prev.next = None  # Terminate the modified list
+	# Terminate the modified list
+	prev.next = None
 	return head
+
+# Recursion - O(N), O(N)
+def remove_duplicates_recursion(head):
+	# Base case
+	if head is None:
+		return
+
+	# Check if the next node exists
+	if head.next is not None:
+		
+		# If current node has duplicate data as the next node
+		if head.data == head.next.data:
+			head.next = head.next.next
+			remove_duplicates_recursion(head)
+		else:
+			# Continue to next node
+			remove_duplicates_recursion(head.next)
 
 first = Node(11)
 second = Node(11)
@@ -61,5 +80,7 @@ fifth.next = sixth
 
 print("LinkedList: ", end="")
 print_nodes(first)
-new_list = remove_duplicates_inplace(first)
-print_nodes(new_list)
+new_list1 = remove_duplicates_inplace(first)
+new_list2 = remove_duplicates_inplace(first)
+print_nodes(new_list1)
+print_nodes(new_list2)
