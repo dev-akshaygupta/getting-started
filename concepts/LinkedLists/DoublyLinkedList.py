@@ -298,3 +298,42 @@ print("After deletion: ", end="")
 print_nodes(new_head)
 print()
 
+
+"""
+Given a doubly-linked list of positive integers. 
+The task is to print the given doubly linked list data in reverse order.
+"""
+
+def print_in_reverse(head):
+	curr = head
+
+	while curr.next:
+		curr = curr.next
+
+	print("Reverse order: ", end="")
+
+	while curr:
+		print(curr.data, end=" ")
+		curr = curr.prev
+
+	return head
+
+first = Node(1)
+second = Node(2)
+third = Node(3)
+fourth = Node(4)
+fifth = Node(5)
+
+first.next = second
+second.prev = first
+second.next = third
+third.prev = second
+third.next = fourth
+fourth.prev = third
+fourth.next = fifth
+fifth.prev = fourth
+
+print("Actual order: ", end="")
+print_nodes(first)
+print_in_reverse(first)
+print()
