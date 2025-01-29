@@ -337,3 +337,44 @@ print("Actual order: ", end="")
 print_nodes(first)
 print_in_reverse(first)
 print()
+
+
+"""
+Given a Doubly linked list(DLL) containing n nodes and an integer x, 
+the task is to find the position of the integer x in the doubly linked list. 
+If no such position found then print -1.
+"""
+
+def search_node(head, data):
+	curr = head
+	count = 1
+
+	while curr.next:
+		if curr.data == data:
+			return count
+		count += 1
+		curr = curr.next
+
+	return -1
+
+first = Node(1)
+second = Node(2)
+third = Node(3)
+fourth = Node(7)
+fifth = Node(5)
+
+first.next = second
+second.prev = first
+second.next = third
+third.prev = second
+third.next = fourth
+fourth.prev = third
+fourth.next = fifth
+fifth.prev = fourth
+
+print()
+print("Doubly linked list: ", end="")
+print_nodes(first)
+posn = search_node(first, 7)
+print(f"Node found at: {posn}", end="")
+print()
