@@ -165,6 +165,7 @@ Delete a Circular Linked List node at a given position
 - At the end
 """
 
+# At the beginning
 def delete_first_node(head):
 	prev = head
 	nxt = head
@@ -194,4 +195,50 @@ print_nodes(third)
 new_head = delete_first_node(first)
 print("After deletion: ", end="")
 print_nodes(new_head)
+print()
+
+
+# At specified posn
+def delete_at_specified_posn(head, posn):
+	if head is None:
+		print("List is empty")
+		return
+
+	temp = head
+
+	# Delete head node
+	if posn == 1:
+		if head.next == head:		# Single node case
+			return
+
+		while temp.next != head:	# Find last node
+			temp = temp.next
+
+		head = head.next 			# Move head
+		temp.next = head 			# Update last node's next pointer
+		return
+
+	prev = None
+	for _ in range(posn - 1):
+		prev, temp = temp, temp.next
+		if temp == head:			# Out of bounds
+			print("Invalid position")
+			return
+
+	prev.next = temp.next  # Unlink node
+	return
+
+first = Node(1)
+second = Node(2)
+third = Node(3)
+
+first.next = second
+second.next = third
+third.next = first
+
+print("Before deletion: ", end="")
+print_nodes(third)
+delete_at_specified_posn(first, 2)
+print("After deletion: ", end="")
+print_nodes(third)
 print()
