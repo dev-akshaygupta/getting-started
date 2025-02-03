@@ -606,3 +606,40 @@ head = reverse_using_stacks(first)
 print("After reversal: ", end="")
 print_nodes(head)
 print()
+
+
+class Node:
+	def __init__(self, data):
+		self.data = data
+		self.next = None
+
+class LinkedList:
+	def __init__(self, value):
+		self.head = Node(value)
+		self.tail = self.head
+		self.length = 1
+
+	def __str__(self):
+		curr = self.head
+		result = ''
+		while curr:
+			result += str(curr.data)
+			if curr.next:
+				result += ' -> '
+			curr = curr.next
+		return result
+
+	def append(self, value):
+		new_node = Node(value)
+		if self.head is None:
+			self.head = new_node
+			self.tail = self.head
+		else:
+			self.tail.next = new_node
+			self.tail = new_node
+		self.length += 1
+
+new_linked_list = LinkedList(10)
+new_linked_list.append(35)
+new_linked_list.append(55)
+print(new_linked_list)
