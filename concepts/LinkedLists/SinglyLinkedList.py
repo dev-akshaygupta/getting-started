@@ -680,7 +680,40 @@ class LinkedList:
 				return True
 			curr = curr.next
 		return False
-
+	
+	def get(self, idx):
+		if idx == -1:
+			return self.tail
+		if idx < -1 or idx >= self.length:
+			return None
+		curr = self.head
+		for _ in range(idx):
+			curr = curr.next
+		return curr
+	
+	def set_value(self, idx, value):
+		node = self.get(idx)
+		if node:
+			node.data = value
+			return True
+		return False
+	
+	def pop_first(self):
+		if self.length == 0:
+			return None
+		
+		popped_node = self.head
+		if self.length == 1:
+			self.head = None
+			self.tail = None
+		else:
+			self.head = self.head.next
+			popped_node.next = None
+		self.length -= 1
+		return popped_node
+	
+	def pop(self):
+		pass
 
 new_linked_list = LinkedList(10)
 new_linked_list.prepend(5)
@@ -690,3 +723,7 @@ new_linked_list.insert(25, 3)
 print(new_linked_list)
 new_linked_list.traverse()
 print(new_linked_list.search(15))
+print(new_linked_list.get(10))
+new_linked_list.set_value(3, 43)
+print(new_linked_list)
+print(new_linked_list.pop_first().data)
