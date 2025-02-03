@@ -629,6 +629,16 @@ class LinkedList:
 			curr = curr.next
 		return result
 
+	def prepend(self, value):
+		new_node = Node(value)
+		if self.head is None:
+			self.head = new_node
+			self.tail = self.head
+		else:
+			new_node.next = self.head
+			self.head = new_node
+		self.length += 1
+
 	def append(self, value):
 		new_node = Node(value)
 		if self.head is None:
@@ -639,7 +649,44 @@ class LinkedList:
 			self.tail = new_node
 		self.length += 1
 
+	def insert(self, value, idx):
+		new_node = Node(25)
+		if idx < 0 or idx > self.length:
+			return None
+		if self.length == 0:
+			self.head = new_node
+			self.tail = self.head
+		elif idx == 0:
+			new_node.next = self.head
+			self.head = new_node
+		else:	
+			curr = self.head
+			for _ in range(idx-1):
+				curr = curr.next
+			new_node.next = curr.next
+			curr.next = new_node
+		self.length += 1
+
+	def traverse(self):
+		curr = self.head
+		while curr:
+			print(curr.data)
+			curr = curr.next
+
+	def search(self, target):
+		curr = self.head
+		while curr:
+			if curr.data == target:
+				return True
+			curr = curr.next
+		return False
+
+
 new_linked_list = LinkedList(10)
+new_linked_list.prepend(5)
 new_linked_list.append(35)
 new_linked_list.append(55)
+new_linked_list.insert(25, 3)
 print(new_linked_list)
+new_linked_list.traverse()
+print(new_linked_list.search(15))
