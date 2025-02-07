@@ -713,12 +713,49 @@ class LinkedList:
 		return popped_node
 	
 	def pop(self):
-		pass
+		if self.length == 0:
+			return None
+		popped_node = self.tail
+		if self.length == 1:
+			self.head = None
+			self.tail = None
+		else:
+			curr = self.head
+			while curr.next is not popped_node:
+				curr = curr.next
+			self.tail = curr
+			curr.next = None
+			self.length -= 1
+
+		return popped_node
+
+	def remove(self, index):
+		if index >= self.length or index < -1:
+			return None
+		if index == 0:
+			return self.pop_first()
+		if index == self.length-1 or index == -1:
+			return self.pop()
+		prev = self.get(index-1)
+		popped_node = prev.next
+		prev.next = popped_node.next
+		popped_node.next = None
+		self.length -= 1
+		return popped_node
+
+	def delete_all(self):
+		self.head = None
+		self.tail = None
+		self.length = 0
+
 
 new_linked_list = LinkedList(10)
 new_linked_list.prepend(5)
 new_linked_list.append(35)
 new_linked_list.append(55)
+new_linked_list.append(45)
+new_linked_list.append(85)
+new_linked_list.append(75)
 new_linked_list.insert(25, 3)
 print(new_linked_list)
 new_linked_list.traverse()
@@ -727,3 +764,7 @@ print(new_linked_list.get(10))
 new_linked_list.set_value(3, 43)
 print(new_linked_list)
 print(new_linked_list.pop_first().data)
+print(new_linked_list.pop().data)
+print(new_linked_list.remove(-1).data)
+print(new_linked_list.delete_all())
+print(new_linked_list)
