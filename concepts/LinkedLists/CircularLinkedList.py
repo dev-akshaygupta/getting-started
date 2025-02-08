@@ -242,3 +242,125 @@ delete_at_specified_posn(first, 2)
 print("After deletion: ", end="")
 print_nodes(third)
 print()
+
+
+class Node:
+	def __init__(self, value = None):
+		self.value = value
+		self.next = None
+
+class CircularLinkedList:
+	def __init__(self):
+		self.head = None
+		self.tail = None
+		
+	def __iter__(self):
+		node = self.head
+		while node:
+			yield node
+			if node.next == self.head:
+				break
+			node = node.next
+	
+	# Create circular linked list
+	def create_cirular_single_linked_list(self, value):
+		new_node = Node(value)
+		new_node.next = new_node
+		self.head = new_node
+		self.tail = new_node
+		return "cirular_single_linked_list has been created."
+	
+	def insert_cirular_single_linked_list(self, value, loc):
+		if self.head is None:
+			return "Head reference is None."
+		else:
+			new_node = Node(value)
+			if loc == 0:
+				new_node.next = self.head
+				self.head = new_node
+				self.tail.next = new_node
+			elif loc == 1:
+				new_node.next = self.tail.next
+				self.tail.next = new_node
+				self.tail = new_node
+			else:
+				temp_node = self.head
+				idx = 0
+				while idx < loc - 1:
+					temp_node = temp_node.next
+					idx += 1
+				new_node = temp_node.next
+				temp_node.next = new_node
+				new_node.next = new_node
+		return "cirular_single_linked_list has been inserted."
+	
+	def traversal_cirular_single_linked_list(self):
+		if self.head is None:
+			return "Head reference is None."
+		else:
+			temp_node = self.head
+			while temp_node:
+				print(temp_node.value)
+				temp_node = temp_node.next
+				if temp_node == self.tail.next:
+					break
+
+	def search_cirular_single_linked_list(self, value):
+		if self.head is None:
+			return "Head reference is None."
+		else:
+			temp_node = self.head
+			while temp_node:
+				if temp_node.value == value:
+					return temp_node
+				temp_node = temp_node.next
+				if temp_node == self.tail.next:
+					return "Node does not exits"
+				
+	def delete_cirular_single_linked_list(self, loc):
+		if self.head is None:
+			return "Head reference is None."
+		else:
+			if loc == 0:
+				if self.head == self.tail:
+					self.head.next = None
+					self.head = None
+					self.tail = None
+				else:
+					self.head = self.head.next
+					self.tail.next = self.head
+			elif loc == 1:
+				if self.head == self.tail:
+					self.head.next = None
+					self.head = None
+					self.tail = None
+				else:
+					temp_node = self.head
+					while temp_node:
+						if temp_node.next == self.tail:
+							break
+						temp_node = temp_node.next
+					temp_node.next = self.head
+					self.tail = temp_node
+			else:
+				temp_node = self.head
+				idx = 0
+				while idx < loc - 1:
+					temp_node = temp_node.next
+					idx += 1
+				next_node = temp_node.next
+				temp_node.next = next_node.next
+
+	
+csll = CircularLinkedList()
+csll.create_cirular_single_linked_list(10)
+csll.insert_cirular_single_linked_list(20, 1)
+csll.insert_cirular_single_linked_list(30, 0)
+csll.insert_cirular_single_linked_list(40, 1)
+csll.insert_cirular_single_linked_list(50, 0)
+
+# for obj in csll:
+# 	print(obj.value)
+
+csll.traversal_cirular_single_linked_list()
+print(csll.search_cirular_single_linked_list(20))
