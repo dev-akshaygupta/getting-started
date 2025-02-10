@@ -350,17 +350,25 @@ class CircularLinkedList:
 					idx += 1
 				next_node = temp_node.next
 				temp_node.next = next_node.next
-
+		
+	def delete_entier_cirular_single_linked_list(self):
+		self.head = None
+		self.tail.next = None
+		self.tail = None
 	
-csll = CircularLinkedList()
-csll.create_cirular_single_linked_list(10)
-csll.insert_cirular_single_linked_list(20, 1)
-csll.insert_cirular_single_linked_list(30, 0)
-csll.insert_cirular_single_linked_list(40, 1)
-csll.insert_cirular_single_linked_list(50, 0)
+# csll = CircularLinkedList()
+# csll.create_cirular_single_linked_list(10)
+# csll.insert_cirular_single_linked_list(20, 1)
+# csll.insert_cirular_single_linked_list(30, 0)
+# csll.insert_cirular_single_linked_list(40, 1)
+# csll.insert_cirular_single_linked_list(50, 0)
 
 # for obj in csll:
 # 	print(obj.value)
 
-csll.traversal_cirular_single_linked_list()
-print(csll.search_cirular_single_linked_list(20))
+# csll.traversal_cirular_single_linked_list()
+# print(csll.search_cirular_single_linked_list(20))
+# print(csll.delete_cirular_single_linked_list(2))
+# csll.traversal_cirular_single_linked_list()
+# print(csll.delete_entier_cirular_single_linked_list())
+# csll.traversal_cirular_single_linked_list()
