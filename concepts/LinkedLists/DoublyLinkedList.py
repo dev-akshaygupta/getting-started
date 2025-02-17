@@ -378,3 +378,145 @@ print_nodes(first)
 posn = search_node(first, 7)
 print(f"Node found at: {posn}", end="")
 print()
+print()
+
+class Node:
+	def __init__(self, value):
+		self.value = value
+		self.next = None
+		self.prev = None
+
+class DoublyLinkedList:
+	def __init__(self):
+		self.head = None
+		self.tail = None
+
+	def __iter__(self):
+		curr = self.head
+		while curr:
+			yield curr
+			curr = curr.next
+	
+	# create doubly linked list
+	def create(self, value):
+		new_node = Node(value)
+		self.head = new_node
+		self.tail = new_node
+		return "Doubly linkedlist is created successfully!"
+	
+	# insert into doubly linked list
+	def insert(self, value, loc):
+		if self.head is None:
+			print("The node cannot be inserted.")
+		else:
+			new_node = Node(value)
+			if loc == 0:				# Insert at the beginning
+				new_node.next = self.head
+				self.head.prev = new_node
+				self.head = new_node
+			elif loc == -1:				# Insert at the end
+				new_node.prev = self.tail
+				self.tail.next = new_node
+				self.tail = new_node
+			else:						# Insert in the middle
+				curr = self.head
+				idx = 0
+				while idx < loc-1 and curr is not None:
+					curr = curr.next
+					idx += 1
+				
+				if curr is None or curr.next is None:
+					new_node.prev = self.tail
+					self.tail.next = new_node
+					self.tail = new_node
+				else:
+					new_node.next = curr.next
+					new_node.prev = curr
+					new_node.next.prev = new_node
+					curr.next = new_node
+	
+	
+	def traverse(self):
+		if not self.head:
+			print("No nodes available to traverse.")
+		else:
+			curr = self.head
+			while curr:
+				print(curr.value)
+				curr = curr.next
+
+	def reverse_traverse(self):
+		if not self.head:
+			print("No nodes available to traverse.")
+		else:
+			curr = self.tail
+			while curr:
+				print(curr.value)
+				curr = curr.prev
+
+	def search(self, value):
+		if not self.head:
+			return "No nodes available to search."
+		else:
+			curr = self.head
+			while curr:
+				if curr.value == value:
+					return curr
+				curr = curr.next
+			return "Value node not found in the list."
+		
+	def delete(self, loc):
+		if not self.head:
+			print("No node available to delete")
+		
+		if self.head == self.tail:
+			self.head = self.tail = None
+		elif loc == 0:
+			self.head = self.head.next
+			self.head.prev = None
+		elif loc == -1:
+			self.tail = self.tail.prev
+			self.tail.next = None
+		else:
+			curr = self.head.next
+			idx = 0
+			while curr is not None and idx < loc-1:
+				curr = curr.next
+				idx += 1
+			
+			if curr is None:
+				print("Index out of bounds")
+				return
+
+			if curr == self.tail:
+				self.tail = self.tail.prev
+				self.tail.next = None
+			else:
+				curr.prev.next = curr.next
+				curr.next.prev = curr.prev
+
+	def delete_DLL(self):
+		if not self.head:
+			print("There are no nodes in the Linked List")
+		else:
+			curr = self.head
+			while curr:
+				curr.prev = None
+				curr = curr.next
+			self.head = None
+			self.tail = None
+			print("DLL is successfully deleted.")
+		
+
+doublyLL = DoublyLinkedList()
+doublyLL.create(10)
+doublyLL.insert(-10, 0)
+doublyLL.insert(30, -1)
+doublyLL.insert(20, 2)
+print([node.value for node in doublyLL])
+doublyLL.traverse()
+doublyLL.reverse_traverse()
+print(doublyLL.search(-10))
+print(doublyLL.search(-20))
+doublyLL.delete(-1)
+print([node.value for node in doublyLL])
