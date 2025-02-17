@@ -249,6 +249,9 @@ class Node:
 		self.value = value
 		self.next = None
 
+	def __str__(self):
+		return str(self.value)
+
 class CircularLinkedList:
 	def __init__(self):
 		self.head = None
@@ -372,3 +375,201 @@ class CircularLinkedList:
 # csll.traversal_cirular_single_linked_list()
 # print(csll.delete_entier_cirular_single_linked_list())
 # csll.traversal_cirular_single_linked_list()
+
+class CSLinkedList:
+	# This will create new linked list with one node
+	# def __init__(self, value):
+	# 	new_node = Node(value)
+	# 	new_node.next = new_node
+	# 	self.head = new_node
+	# 	self.tail = new_node
+	# 	self.length = 1
+
+	# This will create new empty linked list
+	def __init__(self):
+		self.head = None
+		self.tail = None
+		self.length = 0
+	
+	# Altered __str__ to print linked list
+	def __str__(self):
+		curr = self.head
+		result = ''
+		while curr:
+			result += str(curr.value)
+			curr = curr.next
+			if curr == self.head:
+				break
+			result += ' -> '
+		return result
+
+	# Append new value to linked list
+	def append(self, value):
+		new_node = Node(value)
+		if self.length == 0:
+			new_node.next = new_node
+			self.head = new_node
+			self.tail = new_node
+		else:
+			self.tail.next = new_node
+			new_node.next = self.head
+			self.tail = new_node
+		self.length += 1
+
+	# Prepend new value to linked list
+	def prepend(self, value):
+		new_node = Node(value)
+		if self.length == 0:
+			new_node.next = new_node
+			self.head = new_node
+			self.tail = new_node
+		else:
+			new_node.next = self.head
+			self.head = new_node
+			self.tail.next = new_node
+		self.length += 1
+
+	# Insert new value to linked list at given location
+	def insert(self, value, loc):
+		new_node = Node(value)
+		curr = self.head
+		# We cannot insert at loc greater than length and also at negative index
+		if loc > self.length or loc < 0:
+			raise Exception("Index out of bounds")
+		# Insert at starting index
+		elif loc == 0:
+			# Insert when there is no element in the linked list
+			if self.length == 0:
+				self.head = new_node
+				self.tail = new_node
+				new_node.next = new_node
+			else:
+				new_node.next = curr
+				self.head = new_node
+				self.tail.next = new_node
+		# Insert at the end of the linked list
+		elif loc == self.length:
+			self.tail.next = new_node
+			new_node.next = self.head
+			self.tail = new_node
+		# Insert at the given location other than start or end
+		else:
+			for _ in range(loc-1):
+				curr = curr.next
+			new_node.next = curr.next
+			curr.next = new_node
+		self.length += 1
+
+	# Traverse through linkedlist
+	def traverse(self):
+		curr = self.head
+		while curr:
+			print(curr.value)
+			curr = curr.next
+			if curr == self.head:
+				break
+	
+	# Find value in the linkedlist
+	def search(self, tgt):
+		curr = self.head
+		while curr:
+			if curr.value == tgt:
+				return "Target value found"
+			curr = curr.next
+			if curr == self.head:
+				return "Target value not found"
+
+	# Get value from particular index
+	def get(self, idx):
+		curr = self.head
+		if idx < -1 or idx >= self.length:
+			return None
+		elif idx == (self.length-1) or idx == -1:
+			return self.tail
+		for _ in range(idx):
+			curr = curr.next
+		return curr
+	
+	# Set value at particular index
+	def set(self, idx, value):
+		idx_node = self.get(idx)
+
+		if idx_node:
+			idx_node.value = value
+			return "Value set at given index"
+		return "Index out of range"
+	
+	# Set value at particular index
+	def pop_first(self):
+		pop_node = self.head
+		if self.length == 0:
+			return None
+		if self.length == 1:
+			self.head = None
+			self.tail = None
+			return pop_node
+		self.head = self.head.next
+		self.tail.next = self.head
+		pop_node.next = None
+		self.length -= 1
+		return pop_node
+
+	# Set value at particular index
+	def pop(self):
+		if self.length == 0:
+			return None
+		pop_node = self.tail
+		if self.length == 1:
+			self.head = self.tail = None
+		else:
+			curr = self.head
+			while curr.next is not self.tail:
+				curr = curr.next
+
+			curr.next = self.head
+			self.tail = curr
+		pop_node.next = None
+		self.length -= 1
+		return pop_node
+	
+	def remove(self, idx):
+		if idx < 0 or idx >= self.length:
+			return None
+		elif idx == 0:
+			return self.pop_first()
+		elif idx == self.length-1:
+			return self.pop()
+		prev_node = self.get(idx-1)
+		pop_node = prev_node.next
+		prev_node.next = pop_node.next
+		pop_node.next = None
+		self.length -= 1
+		return pop_node
+
+	def delete_all(self):
+		self.tail.next = None
+		self.head = None
+		self.tail = None
+		self.length = 0
+
+csLinkedList = CSLinkedList()
+csLinkedList.append(10)
+csLinkedList.append(20)
+csLinkedList.append(30)
+csLinkedList.append(40)
+csLinkedList.prepend(-10)
+csLinkedList.prepend(-20)
+csLinkedList.insert(-30, 1)
+csLinkedList.insert(-40, 7)
+print(csLinkedList)
+csLinkedList.traverse()
+print(csLinkedList.search(100))
+print(csLinkedList.get(0))
+print(csLinkedList.set(5, 10))
+print(csLinkedList)
+print(csLinkedList.pop_first())
+print(csLinkedList.pop())
+print(csLinkedList.pop())
+print(csLinkedList)
+print(csLinkedList.remove(4))
+print(csLinkedList.delete_all())
