@@ -390,18 +390,31 @@ class DoublyLinkedList:
 	def __init__(self):
 		self.head = None
 		self.tail = None
+		self.length = 0
 
 	def __iter__(self):
 		curr = self.head
 		while curr:
 			yield curr
 			curr = curr.next
-	
+
+	def __str__(self):
+		curr = self.head
+		result = 'None <- '
+		while curr:
+			result += str(curr.value)
+			if curr.next:
+				result += ' <-> '
+			curr = curr.next
+		result += ' -> None'
+		return result
+
 	# create doubly linked list
 	def create(self, value):
 		new_node = Node(value)
 		self.head = new_node
 		self.tail = new_node
+		self.length += 1
 		return "Doubly linkedlist is created successfully!"
 	
 	# insert into doubly linked list
@@ -434,8 +447,30 @@ class DoublyLinkedList:
 					new_node.prev = curr
 					new_node.next.prev = new_node
 					curr.next = new_node
+			self.length += 1
+
+	def append(self, value):
+		new_node = Node(value)
+		if not self.head:
+			self.head = new_node
+			self.tail = new_node
+		else:
+			self.tail.next = new_node
+			new_node.prev = self.tail
+			self.tail = new_node
+		self.length += 1
 	
-	
+	def prepend(self, value):
+		new_node = Node(value)
+		if not self.head:
+			self.head = new_node
+			self.tail = new_node
+		else:
+			self.head.prev = new_node
+			new_node.next = self.head
+			self.head = new_node
+		self.length += 1
+
 	def traverse(self):
 		if not self.head:
 			print("No nodes available to traverse.")
@@ -465,9 +500,80 @@ class DoublyLinkedList:
 				curr = curr.next
 			return "Value node not found in the list."
 		
+	def set(self, idx, value):
+		node = self.get(idx)
+		if node:
+			node.value = value
+			return f"Value at {idx} has been successfully updated."
+		return f"Index out of bounds"
+		
+	def get(self, idx):
+		if idx < 0 or idx >= self.length:
+			return None
+
+		if idx < self.length//2:
+			curr = self.head
+			for _ in range(idx):
+				curr = curr.next
+		else:
+			curr = self.tail
+			for _ in range(self.length-1, idx, -1):
+				curr = curr.prev
+		return curr
+	
+	def pop_first(self):
+		if not self.head:
+			print("No node available to pop")
+			return
+		
+		popped_node = self.head
+		if self.length == 1:
+			self.head = self.tail = None
+		else:
+			self.head = self.head.next
+			self.head.prev = None
+			popped_node.next = None
+		self.length -= 1
+		return popped_node
+	
+	def pop(self):
+		if not self.head:
+			print("No node available to pop")
+			return
+		
+		popped_node = self.tail
+		if self.length == 1:
+			self.head = self.tail = None
+		else:
+			self.tail = self.tail.prev
+			self.tail.next = None
+			popped_node.prev = None
+		self.length -= 1
+		return popped_node
+	
+	def remove(self, idx):
+		if idx == 0:
+			return self.pop_first()
+		
+		if idx == self.length-1:
+			return self.pop()
+
+		popped_node = self.get(idx)
+		if popped_node:
+			popped_node.prev.next = popped_node.next
+			popped_node.next.prev = popped_node.prev
+			popped_node.next = None
+			popped_node.prev = None
+			self.length -= 1
+			return f"Node has been successfully deleted"
+
+		return f"Index out of bounds"
+
+
 	def delete(self, loc):
 		if not self.head:
 			print("No node available to delete")
+			return
 		
 		if self.head == self.tail:
 			self.head = self.tail = None
@@ -494,6 +600,7 @@ class DoublyLinkedList:
 			else:
 				curr.prev.next = curr.next
 				curr.next.prev = curr.prev
+		self.length -= 1
 
 	def delete_DLL(self):
 		if not self.head:
@@ -506,7 +613,7 @@ class DoublyLinkedList:
 			self.head = None
 			self.tail = None
 			print("DLL is successfully deleted.")
-		
+			self.length = 0
 
 doublyLL = DoublyLinkedList()
 doublyLL.create(10)
@@ -520,3 +627,16 @@ print(doublyLL.search(-10))
 print(doublyLL.search(-20))
 doublyLL.delete(-1)
 print([node.value for node in doublyLL])
+doublyLL.append(40)
+print([node.value for node in doublyLL])
+doublyLL.prepend(-20)
+print(doublyLL.get(-1))
+print(doublyLL.get(2).value)
+print(doublyLL.get(20))
+print(doublyLL.set(4, 50))
+print(doublyLL)
+print(doublyLL.pop_first().value)
+print(doublyLL.pop().value)
+print(doublyLL)
+print(doublyLL.remove(2))
+print(doublyLL)
